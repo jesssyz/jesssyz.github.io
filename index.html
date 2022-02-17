@@ -1,0 +1,211 @@
+<!--
+
+    TO-DO APP - Flex Project
+    Project by: Jessica Zhang
+    Breakdown: 75%
+    Browser: Chrome
+    Responsive: Yes (large screen & mobile)
+    Internet Connection: Yes
+    
+    To-Do App Functionalities:
+    
+    1) create and add items to a list + assign a due date
+        - the user can type the name of the item in the text input field and enter a date in the date input field
+        - once all the information is entered, the user can click the plus icon in the bottom-right corner to create and add the item to the list
+        - if the user does not enter a name, the page sends an alert and prompts the user to do so
+        - if the user does not enter a date, the item will have no due date
+
+    2) complete items from list
+        - the user can complete items from the list by clicking the check box 
+        - when an item is completed, the item's appearance changes:
+            - the check box icon changes
+            - any additional styles become hidden (ex: priority, overdue)
+            - the text will become crossed out
+        - if a completed item gets unmarked and becomes incompleted again, the styles the item had prior to being marked as complete will reappear
+        - a user is still able to change an item from a sub-item to a normal-item while it is marked as complete
+
+    3) delete items from list
+        - the user can delete items from the list by clicking the edit button and selecting the "Delete Item" option from the drop down menu
+
+    4) assign priority to an item
+        - the user can assign a priority to an item by clicking the edit button and selecting the "Make Item Priority" option
+        - the user can also remove priority by clicking on the edit button again and selecting the "Remove Priority" option
+        - if a user tries to change the priority of a completed item, the user will receive an alert saying that they must unmark the item as complete before doing so
+
+    5) changes appearance if item is overdue
+        - upon adding an item to the list, the app will check if the due date is overdue
+        - if an item is overdue, an "Overdue!" message will be below the due date of the item
+
+    6) change an item to a sub-item
+        - the user can change an item to a sub-item by clicking the edit button and selecting the "Make Sub-Item" option
+        - the user can also "promote" a sub-item by clicking the edit button and selecting the "Promote Sub-Item" option
+        - the user is able to change an item to a sub-item (and vice versa) even if it is marked as completed
+
+    7) change the name of the list
+        - the user is able to change the name of the list by clicking on the edit icon in the top right corner of the list
+        - a modal will then pop up and prompt the user to enter a new list name
+        - if the user does not enter a name, the list title will default to "Untitled List"
+
+
+    Extra documentation for some of the more complicated stuff:
+
+    -> The main part of the to-do app is contained within a div element with a "container" class and a box-shadow utility from Bootstrap
+
+    -> Each item (task) is contained in an unordered HTML list that uses the Bootstrap grid system
+        -> The <ul> element is given a "row" class
+        -> The <li> elements are given a "col" class each with different grid sizes
+        -> A normal item will have 4 <li> elements with a "col" class
+            -> The 4 different columns consist of the checkbox, the item name, the due date, and the edit button
+
+    -> When a user clicks on the icon to add a new button, it prompts a jQuery event handler with this selector $("#input-button")
+        -> it takes the user input, combines it with the necessary HTML and inserts it onto the document
+-->
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Linking Bootstrap CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+        <!-- Linking Font Awesome Library -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous"/>
+
+        <!-- Linking Google Fonts-->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quicksand:400,500,600,700">
+
+        <!-- Linking CSS-->
+        <link rel="stylesheet" type="text/css" href="toDoApp.css">
+
+        <title>create a list!</title>
+    </head>
+    
+<!----------BODY---------->
+    <body>
+    
+    <!----------HEADER---------->
+    <div class="container mt-50 mb-15">
+        <h1 class="title-header">create a list!</h1>
+    </div>
+    
+    <!----------LIST---------->
+    <div class="container shadow p-4 mb-4 bg-white rounded" id="list-container">
+    <!-- adding a shadow to the list -->
+    <!-- from: https://getbootstrap.com/docs/4.5/utilities/shadows/ -->
+        
+        <div class="container">
+        
+        <!-- LIST TITLE -->
+        <div class="row m-0 p-0">
+            <h2 id="list-title" class="col-10 p-0">My To-Do List</h2>
+            <span class="col-2 p-0" id="list-icon">
+                <!-- Button trigger modal -->
+                <!-- replaced the button text with an edit icon from the font-awesome library -->
+                <button type="button" id="list-button" class="btn btn-primary" data-toggle="modal" data-target="#changeNameModal"><i class="fas fa-edit"></i></button>
+            </span>
+        </div>
+            
+        <!-- Button (line 55) and Modal Code (line 63-94) based off of modal examples found here: 
+        https://getbootstrap.com/docs/4.5/components/modal/-->
+            
+        <!-- Change List Name MODAL -->
+        <!-- changed modal id -->
+        <div class="modal fade" id="changeNameModal" tabindex="-1" aria-labelledby="changeNameModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <!-- changed modal title text -->  
+                <h5 class="modal-title" id="exampleModalLabel">Change List Name</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form>
+                <div class="form-group">
+                    <!-- added a form with a textarea element so the user can input a new name -->
+                    <label for="message-text" class="col-form-label">Enter new list name:</label>
+                    <!-- specified the rows attribute so the textarea only has 1 row -->
+                    <textarea class="form-control" id="message-text" rows="1"></textarea>
+                </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <!-- changed the text on the footer buttons -->
+                <button type="button" class="btn btn-secondary border-0" data-dismiss="modal">Cancel</button>
+                <!-- added the data-dismiss attribute to the #save-button button so the modal closes when 
+                the user clicks it -->
+                <button type="button" id="save-button" class="btn btn-primary" data-dismiss="modal">Save Changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- divider thing -->
+        <hr id="first-hr">
+          
+        <!----------LIST ITEMS---------->
+        <!-- list items are added here through jQuery event -->
+        <div id="list-item"></div>
+            
+        <!-- LIST ITEM TEMPLATE (for reference)
+        <ul class="row mb-15">
+            <li class="col-1"><i class="far fa-check-circle" id="check-box"></i></li>
+            <li class="col-5 col-md-6" id="item-name">Item Name <br><i id="priority-icon"></i></li>
+            <li class="col-3" id="item-date">Due Date</li>
+            <li class="col-3 col-md-2">
+                <div class="dropdown float-right">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        edit
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#" id="priority-button">Make Item Priority</a>
+                        <a class="dropdown-item" href="#" id="sub-item-button">Make Sub-Item</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#" id="delete-button">Delete Item</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        -->
+            
+        <!-- Code for dropdown (line 111-121) based off of examples found here: https://getbootstrap.com/docs/4.5/components/dropdowns/-->
+        
+        <!----------INPUT FIELDS---------->
+        <div class="row">
+            <!----------item name input field---------->
+            <!-- for small screens, take full width and include a bottom margin-->
+            <!-- for medium+ screens, 7-column wifth and right margin -->
+            <div class="col-12 mb-10 col-md-7 mr-md-10;" id="input-text"><input type="text" class="form-control" placeholder="Enter New Item..." id="new-item-name"></div>
+            
+            <!----------item date input field---------->
+            <!-- for small screens, 11-column width -->
+            <!-- for medium+ screens, 4-column width -->
+            <div class="col-11 col-md-4" id="input-date"><input type="date" class="form-control" placeholder="Select Due Date." id="new-item-date"></div>
+            
+            <!----------add item button---------->
+            <!-- for small screens, 1-column width and no padding -->
+            <!-- for medium+ screens, 1-column width and no top padding -->
+            <div class="col-1 p-0 col-md-1 mt-md-0 text-right" id="input-button"><span class="fas fa-plus-circle"></span></div>  
+        </div>
+        
+        </div>
+            
+    </div>
+
+    <!-- Linking jQuery, Popper.js, and Bootstrap JS  -->
+    <!-- From starter template found here: https://getbootstrap.com/docs/4.5/getting-started/introduction/ -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+
+    <!--  Linking JS -->
+    <script type="text/javascript" src="toDoApp.js"></script>    
+        
+  </body>
+    
+</html>

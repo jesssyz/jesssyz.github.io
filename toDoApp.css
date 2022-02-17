@@ -1,0 +1,282 @@
+body{
+    font-family: "Quicksand", sans-serif;
+    min-height: 100vh;
+    color: #383838;
+    background-image: repeating-linear-gradient(0deg,lightcyan,powderblue,skyblue);
+}
+
+/*---------- HEADER ----------*/
+
+.title-header{
+    margin-top: 20px;
+    margin-bottom:20px;
+    font-size: 4em;
+    font-weight: 600;
+    color: white;
+    animation-name: fadein;
+    animation-duration: 1s;
+    animation-timing-function: ease-in;
+    animation-fill-mode: backwards;
+
+}
+
+/*animation for fading in title header*/
+@keyframes fadein {
+    0%{
+        color: rgba(135, 207, 235, 0);
+    }
+    100%{
+        color: white;
+    }
+}
+    
+/*---------- LIST HEADER ----------*/ 
+
+ul{
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+.mt-50{
+    margin-top: 50px;
+}
+
+.mb-15{
+    margin-bottom: 15px;
+}
+
+.mb-10{
+    margin-bottom: 15px;
+}
+
+.pl-50{
+    padding-left: 50px;
+}
+
+h2{
+    font-size: 2.5em;
+    font-weight: 500;
+    color: skyblue;
+    animation-name: fadein-list-title;
+    animation-duration: 0.5s;
+    animation-delay: 0.5s;
+    animation-timing-function: ease-in;
+    animation-fill-mode: backwards;
+}
+
+/*animation for fading in list title*/
+@keyframes fadein-list-title {
+    0%{
+        color: white;
+    }
+    100%{
+        color: skyblue;
+    }
+}
+
+/*---- List Item States  ----*/
+.completed{
+    color: #cbcbcb;
+    text-decoration-line: line-through;
+    text-decoration-color: #cbcbcb;
+}
+
+.priority{
+    font-weight: 700;
+}
+
+/*---- List Title Button  ----*/
+#list-button{
+    color: #cbcbcb;
+    background-color: white;
+    border:none;
+    font-size: 26px;
+    padding: 0px 5px;
+    animation-name: fadein-list-button;
+    animation-duration: 0.5s;
+    animation-delay: 0.5s;
+    animation-timing-function: ease-in;
+    animation-fill-mode: backwards;
+}
+
+/*animation for fading in list button*/
+@keyframes fadein-list-button {
+    0%{
+        color: white;
+    }
+    100%{
+        color: #cbcbcb;
+    }
+}
+
+/*first horizontal rule*/
+#first-hr {
+    animation-name: fadein-hr;
+    animation-duration: 0.5s;
+    animation-delay: 0.5s;
+    animation-timing-function: ease-in;
+    animation-fill-mode: backwards; 
+}
+
+/*animation for fading in hr*/
+@keyframes fadein-hr {
+    0%{
+        width: 0;
+    }
+    100%{
+        width: 100%;
+    }
+}
+
+#list-icon{
+    display: inline-block;
+    color: #cbcbcb;
+    text-align: right;
+    vertical-align: middle;
+    padding-top: 4px;
+    padding-right:8px;
+    font-size: 26px;
+    line-height: 52px;
+    
+}
+
+#list-button:hover{
+    color: skyblue;
+}
+
+/*---- changeNameModal Save Button  ----*/
+#save-button{
+    background-color: skyblue;
+    background-image: repeating-linear-gradient(320deg,powderblue,skyblue);
+    border: none;
+}
+
+/*---- LIST INPUT FIELDS  ----*/
+
+/*input fields*/
+#new-item-name, #new-item-date{
+    animation-name: fadein-input;
+    animation-duration: 2s;
+    animation-delay: 0.5s;
+    animation-timing-function: ease-in;
+    animation-fill-mode: backwards;
+}
+
+/*animation for fading in input fields*/
+@keyframes fadein-input {
+    0%{
+        width: 0;
+        border-color: white;
+        
+    }
+    100%{
+        width: 100%
+    }
+}
+
+/*---- add new item button ----*/
+span{
+    display: inline-block;
+    vertical-align: middle;
+    color: #cbcbcb;
+    padding-top: 4px;
+    padding-right:8px;
+    font-size: 30px;
+    line-height: 26px;
+    animation-name: fadein-button;
+    animation-duration: 0.5s;
+    animation-delay: 2s;
+    animation-timing-function: ease-in;
+    animation-fill-mode: backwards;
+}
+
+/*animation for fading in input fields*/
+@keyframes fadein-button {
+    0%{
+        color: white;
+        
+    }
+    100%{
+        color: #cbcbcb;
+    }
+}
+
+/*---- add new item hover effect ----*/
+span:hover{
+    color: skyblue;
+    cursor: pointer;
+}
+
+/*---------- LIST ITEMS ----------*/ 
+
+/*---- checkmark button column ----*/
+
+#check-box{
+    color: #cbcbcb;
+    display: inline-block;
+    font-size: 30px;
+    line-height: 25px;
+}
+
+#check-box:hover{
+    color: skyblue;
+    cursor: pointer;
+}
+
+/*checkmark button - completed state*/
+#check-box-completed{
+    color: skyblue;
+    background-image: 
+    display: inline-block;
+    font-size: 30px;
+    line-height: 25px;
+}
+
+#check-box-completed:hover{
+    cursor: pointer;
+}
+
+/*---- item name column ----*/
+
+/*priority icon */
+li > i{
+    color:skyblue;
+}
+
+/*item message */
+li > p {
+    font-family: Lato;
+    color: skyblue;
+    font-size: 1em;
+    vertical-align: baseline;
+    display: inline-block;
+    margin: 0;
+}
+
+/*---- due date column ----*/
+#item-date{
+    color: #cbcbcb;
+}
+
+/*overdue message */
+#overdue-message {
+    color: lightcoral;
+}
+
+/*---------- edit dropdown menu column ----------*/ 
+
+/*edit item button*/
+#dropdownMenuButton{
+    background-color: skyblue;
+    background-image: repeating-linear-gradient(320deg,powderblue,skyblue);
+    border:none;
+    font-size: 1em;
+    margin-top: -5px;
+}
+
+
+#delete-button:hover{
+    background-color: #ffabab;
+    color: firebrick;
+}
